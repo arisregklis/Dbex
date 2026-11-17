@@ -35,7 +35,6 @@ create table Order(
 
 
 
-
 create table Customer(
     Customer_id int not null primary key
     Customer_name varchar(100) not null
@@ -50,5 +49,18 @@ create table Frequent_Customer(
     Frequent_Customer_CreditLimit decimal(10.2) not null 
     Frequent_Customer_balance decimal(10.2) not null 
     Foreign key (Customer_id) references Customer(Customer_id)
+)
+
+create table Region(
+    Region_id int not null primary key
+    Region_name varchar(100) not null
+    Region_populatiuon int not null
+)
+
+create table Payment(
+    Payment_date date not null
+    Payment_hour time not null
+    Payment_amount decimal(10.2) not null
+    Primary key (Custmoer_id)
 )
 
