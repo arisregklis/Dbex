@@ -4,6 +4,8 @@ create table Product(
     Product_description text not null
     Product_price decimal(10.2) not null
     Product_stock int not null
+    Category_id int not null
+    Foreign key (Category_id) references Category(Category_id)
 )
 
 create table Category(
@@ -18,12 +20,25 @@ create table Supplier(
     Supplier_name varchar(100) not null
     Supplier_address text not null
     Supplier_phone varchar(15) not null
+    Region_id int not null
+    Foreign key (Region_id) references Region(Region_id)
+)
+create table Product_Supplier(
+    Product_id int not null 
+    Supplier_id int not null
+    Foreign key (Product_id) references Product(Product_id)
+    Foreign key (Supplier_id) references Supplier(Supplier_id)
+    Primary key (Product_id, Supplier_id)
 )
 
 create table Purchase(
     Purchase_id int not null primary key
     Purchase_date date not null
     Purchase_quantity int not null
+    Product_id int not null
+    Foreign key (Product_id) references Product (Product_id)
+    Supplier_id int not null
+    Foreign key (Supplier_id) references Supplier (Supplier_id)
 )
 
 create table Order(
@@ -31,7 +46,16 @@ create table Order(
     Order_date date not null
     Order_total decimal(10.2) not null
     Order_status varchar(100) not null
+    Customer_id int not null
+    Foreign key (Customer_id) references Customer(Customer_id)
 )
+ create table Order_Product(
+    Order_id int not null
+    Product_id int not null
+    Foreign key (Order_id) references Order(Order_id)
+    Foreign key (Product_id) references Product(Product_id)
+    Primary key (Order_id, Product_id)
+ )
 
 
 
@@ -41,6 +65,8 @@ create table Customer(
     Customer_address text not null
     Customer_phone varchar(15) not null
     Customer_Afm varchar(9) not null
+    Region_id int not null 
+    Foreign key (Region_id) references Region(Region_id)
 
 )
 
@@ -55,6 +81,7 @@ create table Region(
     Region_id int not null primary key
     Region_name varchar(100) not null
     Region_populatiuon int not null
+    
 )
 
 create table Payment(
@@ -62,8 +89,6 @@ create table Payment(
     Payment_hour time not null
     Payment_amount decimal(10.2) not null
     Customer_id int not null
-    Supplier_id int not null
     Foreign key (Customer_id) references Customer(Customer_id)
-    Foreign key (Supplier_id) references Supplier(Supplier_id)
 )
 
