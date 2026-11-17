@@ -1,17 +1,23 @@
+create table Category(
+    Category_id int not null primary key
+    Category_name varchar(100) not null
+    Category_description text not null
+)
 create table Product(
     Product_id int not null primary key
     Product_name varchar(100) not null
     Product_description text not null
-    Product_price decimal(10.2) not null
+    Product_price decimal(10,2) not null
     Product_stock int not null
     Category_id int not null
     Foreign key (Category_id) references Category(Category_id)
 )
 
-create table Category(
-    Category_id int not null primary key
-    Category_name varchar(100) not null
-    Category_description text not null
+create table Region(
+    Region_id int not null primary key
+    Region_name varchar(100) not null
+    Region_populatiuon int not null
+    
 )
 
 create table Supplier(
@@ -36,16 +42,17 @@ create table Purchase(
     Purchase_date date not null
     Purchase_quantity int not null
     Product_id int not null
-    Foreign key (Product_id) references Product (Product_id)
     Supplier_id int not null
-    Foreign key (Supplier_id) references Supplier (Supplier_id)
-)
+    foreign key (Product_id, Supplier_id)
+    references Product_Supplier(Product_id, Supplier_id)
+);
 
-create table Order(
-    Order_id int not null primary key
-    Order_date date not null
-    Order_total decimal(10.2) not null
-    Order_status varchar(100) not null
+
+create table Orders(
+    Orders_id int not null primary key
+    Orders_date date not null
+    Orders_total decimal(10,2) not null
+    Orders_status varchar(100) not null
     Customer_id int not null
     Foreign key (Customer_id) references Customer(Customer_id)
 )
@@ -72,22 +79,17 @@ create table Customer(
 
 create table Frequent_Customer(
     Customer_id int not null primary key 
-    Frequent_Customer_CreditLimit decimal(10.2) not null 
-    Frequent_Customer_balance decimal(10.2) not null 
+    Frequent_Customer_CreditLimit decimal(10,2) not null 
+    Frequent_Customer_balance decimal(10,2) not null 
     Foreign key (Customer_id) references Customer(Customer_id)
 )
 
-create table Region(
-    Region_id int not null primary key
-    Region_name varchar(100) not null
-    Region_populatiuon int not null
-    
-)
+
 
 create table Payment(
     Payment_date date not null
     Payment_hour time not null
-    Payment_amount decimal(10.2) not null
+    Payment_amount decimal(10,2) not null
     Customer_id int not null
     Foreign key (Customer_id) references Customer(Customer_id)
 )
