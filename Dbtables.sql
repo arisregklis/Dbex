@@ -61,6 +61,9 @@ create table Payment(
     Payment_date date not null
     Payment_hour time not null
     Payment_amount decimal(10.2) not null
-    Primary key (Custmoer_id)
+    Customer_id int not null
+    Supplier_id int not null
+    Foreign key (Customer_id) references Customer(Customer_id)
+    Foreign key (Supplier_id) references Supplier(Supplier_id)
 )
 
