@@ -7,8 +7,8 @@ create table Product(
     Product_id int not null primary key,
     Product_name varchar(100) not null,
     Product_description varchar(500) not null,
-    Product_price decimal(10,2) not null,
-    Product_stock int not null,
+    Product_price decimal(10,2) not null check (Product_price>=0),
+    Product_stock int not null check (Product_stock>=0),
     Category_id int not null,
     Foreign key (Category_id) references Category(Category_id)
 );
@@ -16,13 +16,13 @@ create table Product(
 create table Region(
     Region_id int not null primary key,
     Region_name varchar(500) not null,
-    Region_population int not null
+    Region_population int not null check (Region_population>=0) 
     
 );
 
 create table Supplier(
     Supplier_id int not null primary key,
-    Supplier_Afm varchar(9) not null,
+    Supplier_Afm char(9) not null,
     Supplier_name varchar(100) not null,
     Supplier_address varchar(500) not null,
     Supplier_phone varchar(15) not null,
@@ -40,7 +40,7 @@ create table Product_Supplier(
 create table Purchase(
     Purchase_id int not null primary key,
     Purchase_date date not null,
-    Purchase_quantity int not null,
+    Purchase_quantity int not null check (Purchase_quantity >=0) ,
     Product_id int not null,
     Supplier_id int not null,
     Foreign key (Product_id, Supplier_id) 
@@ -52,7 +52,7 @@ create table Customer(
     Customer_name varchar(100) not null,
     Customer_address varchar(500) not null,
     Customer_phone varchar(15) not null,
-    Customer_Afm varchar(9) not null,
+    Customer_Afm char(9) not null,
     Region_id int not null,
     Foreign key (Region_id) references Region(Region_id)
 
@@ -68,7 +68,7 @@ create table Orders(
  create table Order_Product(
     Orders_id int not null,
     Product_id int not null,
-    Order_Product_Quantity  int not null,
+    Order_Product_Quantity  int not null check  (Order_Product_Quantity >=0),
     Foreign key (Orders_id) references Orders(Orders_id),
     Foreign key (Product_id) references Product(Product_id),
     Primary key (Orders_id, Product_id)
@@ -80,8 +80,8 @@ create table Orders(
 
 create table Frequent_Customer(
     Customer_id int not null primary key,
-    Frequent_Customer_CreditLimit decimal(10,2) not null, 
-    Frequent_Customer_balance decimal(10,2) not null,
+    Frequent_Customer_CreditLimit decimal(10,2) not null check (Frequent_Customer_CreditLimit >=0) , 
+    Frequent_Customer_balance decimal(10,2) not null check (Frequent_Customer_balance >=0) ,
     Foreign key (Customer_id) references Customer(Customer_id)
 );
 
@@ -90,7 +90,7 @@ create table Frequent_Customer(
 create table Payment(
     Payment_date date not null,
     Payment_hour time not null,
-    Payment_amount decimal(10,2) not null,
+    Payment_amount decimal(10,2) not null check (Payment_amount >=0),
     Customer_id int not null,
     Foreign key (Customer_id) references Frequent_Customer(Customer_id),
     primary key (Customer_id, Payment_date, Payment_hour)
